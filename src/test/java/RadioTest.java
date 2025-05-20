@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RadioTest {
     private Radio radio;
@@ -74,5 +75,21 @@ public class RadioTest {
         assertEquals(1, radio.getCurrentVolume());
         radio.decreaseVolume();
         assertEquals(0, radio.getCurrentVolume()); // Should not decrease below 0
+    }
+
+    @Test
+    public void testCustomNumberOfStations() {
+        Radio customRadio = new Radio(5);
+        customRadio.setCurrentStation(4);
+        customRadio.next();
+        assertEquals(0, customRadio.getCurrentStation());
+        customRadio.prev();
+        assertEquals(4, customRadio.getCurrentStation());
+    }
+
+    @Test
+    public void testInvalidNumberOfStations() {
+        assertThrows(IllegalArgumentException.class, () -> new Radio(0));
+        assertThrows(IllegalArgumentException.class, () -> new Radio(-1));
     }
 }

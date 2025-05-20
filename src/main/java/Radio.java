@@ -1,8 +1,19 @@
 public class Radio {
     private int currentStation;
     private int currentVolume;
+    private int numberOfStations;
 
+    // Конструктор по умолчанию
     public Radio() {
+        this(10); // По умолчанию 10 станций
+    }
+
+    // Конструктор с параметром
+    public Radio(int numberOfStations) {
+        if (numberOfStations <= 0) {
+            throw new IllegalArgumentException("Количество станций должно быть положительным");
+        }
+        this.numberOfStations = numberOfStations;
         this.currentStation = 0;
         this.currentVolume = 0;
     }
@@ -12,25 +23,17 @@ public class Radio {
     }
 
     public void setCurrentStation(int station) {
-        if (station >= 0 && station <= 9) {
+        if (station >= 0 && station < numberOfStations) {
             this.currentStation = station;
         }
     }
 
     public void next() {
-        if (currentStation == 9) {
-            currentStation = 0;
-        } else {
-            currentStation++;
-        }
+        currentStation = (currentStation + 1) % numberOfStations;
     }
 
     public void prev() {
-        if (currentStation == 0) {
-            currentStation = 9;
-        } else {
-            currentStation--;
-        }
+        currentStation = (currentStation - 1 + numberOfStations) % numberOfStations;
     }
 
     public int getCurrentVolume() {
